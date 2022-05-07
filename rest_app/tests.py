@@ -39,3 +39,36 @@ the problems which may result by upgrading your kernel.
 """
         }
         self.assertJSONEqual(response.content, expected)
+
+    def test_invalid_certificate(self):
+        """Test that/ping endpoint handles invalid ssl certificates."""
+        client = Client()
+        body = {"url": "https://expired.badssl.com"}
+        response = client.post(
+            "/ping", data=json.dumps(body), content_type="application/json"
+        )
+
+        expected = {
+            "response": """<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/icons/favicon-red.ico"/>
+  <link rel="apple-touch-icon" href="/icons/icon-red.png"/>
+  <title>expired.badssl.com</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>body { background: red; }</style>
+</head>
+<body>
+<div id="content">
+  <h1 style="font-size: 12vw;">
+    expired.<br>badssl.com
+  </h1>
+</div>
+
+</body>
+</html>
+"""
+        }
+        self.assertJSONEqual(response.content, expected)
