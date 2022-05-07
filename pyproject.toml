@@ -8,6 +8,7 @@ authors = ["Maciej 'Kasprzol' Kasprzyk <git_blame@kasprzyk.tech>"]
 python = "^3.10"
 djangorestframework = "^3.13.1"
 requests = "^2.27.1"
+gunicorn = "^20.1.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
