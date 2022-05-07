@@ -1,9 +1,9 @@
 import json
+from http import HTTPStatus
 
 from django.test import Client, TestCase
 
 
-# Create your tests here.
 class RestAppTest(TestCase):
     def test_info(self):
         client = Client()
@@ -72,3 +72,19 @@ the problems which may result by upgrading your kernel.
 """
         }
         self.assertJSONEqual(response.content, expected)
+
+    def test_invalid_request(self):
+        client = Client()
+        body = {"not_an_url": "zażółcił gęślą jaźń 🦆🐱‍👤 🏢🖥"}
+        response = client.post(
+            "/ping", data=json.dumps(body), content_type="application/json"
+        )
+        self.assertEquals(response.status_code, HTTPStatus.BAD_REQUEST)
+
+    def test_connection_error(self):
+        client = Client()
+        body = {"url": "http://255.255.255.255:5336"}
+        response = client.post(
+            "/ping", data=json.dumps(body), content_type="application/json"
+        )
+        self.assertEquals(response.status_code, HTTPStatus.BAD_REQUEST)
