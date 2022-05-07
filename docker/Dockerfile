@@ -5,7 +5,7 @@ RUN mkdir -p /srv/cisco
 WORKDIR /srv/cisco
 COPY ../poetry.lock /srv/cisco
 COPY ../pyproject.toml /srv/cisco
-RUN poetry install --no-root
+RUN poetry install --no-root  --no-dev
 # the lines above are usually cached. The ones below will be rebuild everytime.
 COPY .. /srv/cisco
 RUN poetry install
