@@ -9,4 +9,6 @@ RUN poetry install --no-root
 COPY .. /srv/cisco
 RUN poetry install
 
+EXPOSE 8000
+
 ENTRYPOINT ["/srv/cisco/docker/webapp_entrypoint.sh"]
